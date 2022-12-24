@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MovieApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="intro_description">Build your fitness just from home without going outside</string>
+    <string name="intro_text">Hello, Welcome To Best Movies</string>
+    <string name="intro_title">MOVIE</string>
+    <string name="skip_button_text">Skip</string>
+    <string name="fragment2_text">Setis your fitness jsut from home without going outside</string>
+
+    <string name="sign_up_text">Sign up</string>
+    <string name="register_mail_text">Your email</string>
+    <string name="first_name">First Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="agreement_text">By singing up you agree our Terms of Use and Privacy Policy</string>
+    <string name="registration_with_social_accounts">Or sign up with social account</string>
+    <string name="have_account">Already have account?</string>
+    <string name="label_log_in">Log in</string>
+    <string name="forgot_password">forgot password?</string>
+    <string name="label_forgot_password">Forgot Password?</string>
+    <string name="instruction_text">Please enter your email to receive the instruction to reset your password</string>
+    <string name="last_name">Last Name</string>
+
+
+</resources>

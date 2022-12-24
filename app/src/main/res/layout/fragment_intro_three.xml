@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.intro.IntroFragmentThree">
+
+    <ImageView
+        android:id="@+id/ivIntroScreen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/spiderman"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvIntroTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:typeface="serif"
+        android:text="@string/intro_title"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/skipBtn"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:background="@drawable/skip_btn_style"
+        android:alpha="0.2"
+        app:layout_constraintTop_toTopOf="@id/tvIntroTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tvIntroTitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@id/skipBtn"
+        app:layout_constraintStart_toStartOf="@id/skipBtn"
+        app:layout_constraintEnd_toEndOf="@id/skipBtn"
+        app:layout_constraintBottom_toBottomOf="@id/skipBtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Only With Us Only For You"
+        android:textSize="36sp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="10dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fragment3_infoText"/>
+
+    <TextView
+        android:id="@+id/fragment3_infoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My your fitness just from home without going outside"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:paddingStart="15dp"
+        android:paddingEnd="50dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fragment3_nextBtn"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fragment3_nextBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textColor="@color/white"
+        android:background="@drawable/next_btn_style"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
