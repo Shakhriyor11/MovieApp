@@ -19,14 +19,8 @@ import java.util.List;
 
 public class ParentRvAdapter extends RecyclerView.Adapter<ParentRvAdapter.ParentViewHolder> {
 
-    private Context context;
     private List<MovieResponseResult> movieResponseResults;
     private OnPosterClickListener onPosterClickListener;
-
-    public ParentRvAdapter(Context context,List<MovieResponseResult> movieResponseResults) {
-        this.context = context;
-        this.movieResponseResults = movieResponseResults;
-    }
 
     public List<MovieResponseResult> getMovieResponseResults() {
         return movieResponseResults;

@@ -23,7 +23,6 @@ import java.util.List;
 
 public class MainPageFragment extends Fragment {
 
-    private List<MovieResponseResult> moviesList;
     private RecyclerView rvPosters;
     private ParentRvAdapter adapter;
 
@@ -37,7 +36,7 @@ public class MainPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
         rvPosters = view.findViewById(R.id.movies_page);
         rvPosters.setLayoutManager(new GridLayoutManager(getContext(),numOfColumns));
-        adapter = new ParentRvAdapter(getContext(),moviesList);
+        adapter = new ParentRvAdapter();
         rvPosters.setAdapter(adapter);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
@@ -45,7 +44,6 @@ public class MainPageFragment extends Fragment {
             @Override
             public void onChanged(List<MovieResponseResult> movieResponseResults) {
                 if (movieResponseResults != null) {
-                    moviesList = movieResponseResults;
                     adapter.setMovieResponseResults(movieResponseResults);
                 }
             }

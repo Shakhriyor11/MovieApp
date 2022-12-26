@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     @GET("3/discover/movie")
-    Call<List<MovieResponseResult>> getMovies(@Query("api_key") String API_KEY, @Query("language") String LANGUAGE, @Query("sort_by") String SORT_BY);
+    Observable<MovieResponse> getMovies(@Query("api_key") String API_KEY, @Query("language") String LANGUAGE, @Query("sort_by") String SORT_BY);
 
     @GET("3/search/movie")
     Call<MovieResponse> getMoviesByQuery(@Query("api_key") String api_key, @Query("query") String query);

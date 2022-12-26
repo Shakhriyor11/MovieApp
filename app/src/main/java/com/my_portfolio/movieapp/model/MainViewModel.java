@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -17,39 +18,38 @@ import com.my_portfolio.movieapp.utils.pojo.MovieResponseResult;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends AndroidViewModel {
 
     private static MovieDatabase database;
-    private MutableLiveData<List<MovieResponseResult>> movies = new MutableLiveData<>();
-//    private CompositeDisposable compositeDisposable;
+    private LiveData<List<MovieResponseResult>> movies;
+    private CompositeDisposable compositeDisposable;
+
+    public LiveData<List<MovieResponseResult>> getMovies() {
+        return movies;
+    }
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         database = MovieDatabase.getInstance(application);
-        movies = new MutableLiveData<>();
+        movies = database.movieDao().getAllMovies();
     }
 
-    public MutableLiveData<List<MovieResponseResult>> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(MutableLiveData<List<MovieResponseResult>> movies) {
-        this.movies = movies;
-    }
-
+    @SuppressWarnings("unchecked")
     private void insertMovies(List<MovieResponseResult> movies) {
         new InsertMoviesTask().execute(movies);
     }
 
     private static class InsertMoviesTask extends AsyncTask<List<MovieResponseResult>, Void, Void> {
 
+        @SafeVarargs
         @Override
-        protected Void doInBackground(List<MovieResponseResult>... lists) {
+        protected final Void doInBackground(List<MovieResponseResult>... lists) {
             if (lists != null && lists.length > 0) {
                 database.movieDao().insertMovies(lists[0]);
             }
@@ -74,25 +74,28 @@ public class MainViewModel extends AndroidViewModel {
     public void loadData() {
         ApiMovies apiMovies = ApiMovies.getInstance();
         ApiService apiService = apiMovies.getApiService();
-        Call<List<MovieResponseResult>> call = apiService.getMovies("caacd00da84fc961add94db204602991","ru-RU","popularity.desc");
-        call.enqueue(new Callback<List<MovieResponseResult>>() {
-            @Override
-            public void onResponse(Call<List<MovieResponseResult>> call, Response<List<MovieResponseResult>> response) {
-                Log.d("response", "onResponse: " + response.body());
-                movies.postValue(response.body());
-            }
+        compositeDisposable = new CompositeDisposable();
+        Disposable disposable = apiService.getMovies("caacd00da84fc961add94db204602991","ru-RU","popularity.desc")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<MovieResponse>() {
+                    @Override
+                    public void accept(MovieResponse movieResponse) throws Exception {
+                        deleteAllMovies();
+                        insertMovies(movieResponse.getResults());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
 
-            @Override
-            public void onFailure(Call<List<MovieResponseResult>> call, Throwable t) {
-                Log.d("response", "onFailure: ");
-                movies.postValue(null);
-            }
-        });
+                    }
+                });
+        compositeDisposable.add(disposable);
     }
 
-//    @Override
-//    protected void onCleared() {
-//        compositeDisposable.dispose();
-//        super.onCleared();
-//    }
+    @Override
+    protected void onCleared() {
+        compositeDisposable.dispose();
+        super.onCleared();
+    }
 }
