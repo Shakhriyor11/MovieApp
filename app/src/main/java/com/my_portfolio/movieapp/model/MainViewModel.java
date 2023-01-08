@@ -4,11 +4,9 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.my_portfolio.movieapp.data.movie_data.MovieDatabase;
 import com.my_portfolio.movieapp.utils.api.ApiMovies;
@@ -17,6 +15,7 @@ import com.my_portfolio.movieapp.utils.pojo.MovieResponse;
 import com.my_portfolio.movieapp.utils.pojo.MovieResponseResult;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -71,6 +70,27 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
+    public MovieResponseResult getMovieById(int id) {
+        try {
+            return new GetMovieTask().execute(id).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static class GetMovieTask extends AsyncTask<Integer, Void, MovieResponseResult> {
+        @Override
+        protected MovieResponseResult doInBackground(Integer... integers) {
+            if (integers != null && integers.length > 0) {
+                return database.movieDao().getMovieByID(integers[0]);
+            }
+            return null;
+        }
+    }
+
     public void loadData() {
         ApiMovies apiMovies = ApiMovies.getInstance();
         ApiService apiService = apiMovies.getApiService();
@@ -81,6 +101,10 @@ public class MainViewModel extends AndroidViewModel {
                 .subscribe(new Consumer<MovieResponse>() {
                     @Override
                     public void accept(MovieResponse movieResponse) throws Exception {
+                        for (MovieResponseResult response: movieResponse.getResults())
+                        {
+                            Log.d("response", response.getPosterPath());
+                        }
                         deleteAllMovies();
                         insertMovies(movieResponse.getResults());
                     }

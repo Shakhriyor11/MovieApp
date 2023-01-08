@@ -1,5 +1,7 @@
 package com.my_portfolio.movieapp.data.movie_data;
 
+import android.graphics.Movie;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -18,6 +20,9 @@ public interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMovies(List<MovieResponseResult> movieResponseResult);
+
+    @Query("SELECT * FROM movies WHERE id == :movieId")
+    MovieResponseResult getMovieByID(int movieId);
 
     @Query("DELETE FROM movies")
     void deleteMovies();

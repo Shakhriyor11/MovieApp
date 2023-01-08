@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.my_portfolio.movieapp.R;
+import com.my_portfolio.movieapp.utils.api.ApiMovies;
 import com.my_portfolio.movieapp.utils.pojo.MovieResponseResult;
 import com.squareup.picasso.Picasso;
 
@@ -21,6 +22,10 @@ public class ParentRvAdapter extends RecyclerView.Adapter<ParentRvAdapter.Parent
 
     private List<MovieResponseResult> movieResponseResults;
     private OnPosterClickListener onPosterClickListener;
+
+    public void setOnPosterClickListener(OnPosterClickListener onPosterClickListener) {
+        this.onPosterClickListener = onPosterClickListener;
+    }
 
     public List<MovieResponseResult> getMovieResponseResults() {
         return movieResponseResults;
@@ -41,7 +46,7 @@ public class ParentRvAdapter extends RecyclerView.Adapter<ParentRvAdapter.Parent
     @Override
     public void onBindViewHolder(@NonNull ParentViewHolder holder, int position) {
         MovieResponseResult movieResponseResult = movieResponseResults.get(position);
-        Picasso.get().load(movieResponseResult.getPosterPath()).into(holder.ivSmallPoster);
+        Picasso.get().load("https://image.tmdb.org/t/p/w500" + movieResponseResult.getPosterPath()).into(holder.ivSmallPoster);
         holder.tvTitle.setText(movieResponseResult.getTitle());
         holder.tvReleaseDate.setText(movieResponseResult.getReleaseDate());
     }

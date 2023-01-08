@@ -9,7 +9,7 @@ public class ApiMovies {
 
     private static ApiMovies apiMovies;
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://api.themoviedb.org/";
+    public static final String BASE_URL = "https://api.themoviedb.org/";
 
 
     private ApiMovies() {

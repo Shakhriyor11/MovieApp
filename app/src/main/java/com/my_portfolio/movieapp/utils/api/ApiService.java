@@ -16,6 +16,9 @@ public interface ApiService {
     Observable<MovieResponse> getMovies(@Query("api_key") String API_KEY, @Query("language") String LANGUAGE, @Query("sort_by") String SORT_BY);
 
     @GET("3/search/movie")
-    Call<MovieResponse> getMoviesByQuery(@Query("api_key") String api_key, @Query("query") String query);
+    Observable<MovieResponse> getMoviesByQuery(@Query("api_key") String API_KEY, @Query("language") String LANGUAGE, @Query("query") String QUERY);
+
+    @GET("3/search/person")
+    Observable<MovieResponse> getPersonByQuery(@Query("api_key") String API_KEY, @Query("language") String LANGUAGE, @Query("query") String QUERY);
 
 }
